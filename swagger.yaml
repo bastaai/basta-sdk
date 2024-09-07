@@ -1,0 +1,345 @@
+definitions:
+  models.Account:
+    properties:
+      basta_bid_client:
+        description: Should sales be shown in basta bid client (Basta pages).
+        type: boolean
+      created:
+        allOf:
+          - $ref: "#/definitions/timestamppb.Timestamp"
+        description: Creation date and time for the account
+      email:
+        description: Email associated with account
+        type: string
+      handle:
+        description:
+          Identifier for the account and used as a public identifier for
+          pages
+        type: string
+      id:
+        description: Unique ID for the account
+        type: string
+      modified:
+        allOf:
+          - $ref: "#/definitions/timestamppb.Timestamp"
+        description: Modified date and time for the account. Default nil
+      name:
+        description: Display name for account
+        type: string
+      terms:
+        allOf:
+          - $ref: "#/definitions/models.SellerTerms"
+        description: Populated if account has accepted seller terms.
+    type: object
+  models.AccountResponse:
+    properties:
+      account:
+        $ref: "#/definitions/models.Account"
+    type: object
+  models.BidIncrementTable:
+    properties:
+      rules:
+        items:
+          $ref: "#/definitions/models.RangeRule"
+        type: array
+    type: object
+  models.ClosingMethod:
+    enum:
+      - 0
+      - 1
+      - 2
+      - 3
+    type: integer
+    x-enum-varnames:
+      - ClosingMethod_NOT_SET
+      - ClosingMethod_ONE_BY_ONE
+      - ClosingMethod_OVERLAPPING
+      - ClosingMethod_NONE
+  models.CreateSaleResponse:
+    properties:
+      sale:
+        $ref: "#/definitions/models.Sale"
+    type: object
+  models.Currency:
+    enum:
+      - 0
+      - 1
+      - 2
+    type: integer
+    x-enum-varnames:
+      - Currency_CURRENCY_NOT_SET
+      - Currency_USD
+      - Currency_ISK
+  models.GetSaleResponse:
+    properties:
+      sale:
+        $ref: "#/definitions/models.Sale"
+    type: object
+  models.Paddle:
+    properties:
+      created:
+        $ref: "#/definitions/timestamppb.Timestamp"
+      identifier:
+        type: string
+      type:
+        $ref: "#/definitions/models.PaddleType"
+      user_id:
+        type: string
+    type: object
+  models.PaddleType:
+    enum:
+      - 0
+      - 1
+      - 2
+    type: integer
+    x-enum-varnames:
+      - PaddleType_PADDLE_TYPE_NOT_SET
+      - PaddleType_PHONE
+      - PaddleType_IN_ROOM
+  models.RangeRule:
+    properties:
+      high_range:
+        type: integer
+      low_range:
+        type: integer
+      step:
+        type: integer
+    type: object
+  models.ReserveAutoBidMethod:
+    enum:
+      - 0
+      - 1
+    type: integer
+    x-enum-varnames:
+      - ReserveAutoBidMethod_STANDARD_NO_AUTOBID
+      - ReserveAutoBidMethod_MAX_BID_BELOW_RESERVE_IS_MET
+  models.Sale:
+    properties:
+      account_id:
+        type: string
+      basta_bid_client:
+        description: Should the auction be shown on the Basta bid client (Basta pages).
+        type: boolean
+      bid_increment_table:
+        $ref: "#/definitions/models.BidIncrementTable"
+      closing_method:
+        $ref: "#/definitions/models.ClosingMethod"
+      closing_time_countdown:
+        description: Closing time countdown (Sniping period) in millisecods
+        type: integer
+      created_timestamp:
+        allOf:
+          - $ref: "#/definitions/timestamppb.Timestamp"
+        description: Created timestamp
+      currency:
+        $ref: "#/definitions/models.Currency"
+      hidden:
+        type: boolean
+      id:
+        type: string
+      item_ids:
+        items:
+          type: string
+        type: array
+      paddles:
+        items:
+          $ref: "#/definitions/models.Paddle"
+        type: array
+      reserve_auto_bid_method:
+        $ref: "#/definitions/models.ReserveAutoBidMethod"
+      sale_dates:
+        $ref: "#/definitions/models.SaleDates"
+      sale_type:
+        $ref: "#/definitions/models.SaleType"
+      status:
+        $ref: "#/definitions/models.SaleStatus"
+    type: object
+  models.SaleDates:
+    properties:
+      closing_date:
+        $ref: "#/definitions/timestamppb.Timestamp"
+      live_date:
+        $ref: "#/definitions/timestamppb.Timestamp"
+      open_date:
+        $ref: "#/definitions/timestamppb.Timestamp"
+    type: object
+  models.SaleStatus:
+    enum:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+    type: integer
+    x-enum-varnames:
+      - SaleStatus_SALE_STATUS_NOT_SET
+      - SaleStatus_UNPUBLISHED
+      - SaleStatus_PUBLISHED
+      - SaleStatus_OPEN
+      - SaleStatus_CLOSING
+      - SaleStatus_CLOSED
+      - SaleStatus_PAUSED
+      - SaleStatus_PROCESSING
+      - SaleStatus_SALE_LIVE
+  models.SaleType:
+    enum:
+      - 0
+      - 1
+    type: integer
+    x-enum-varnames:
+      - SaleType_ONLINE_TIMED
+      - SaleType_LIVE
+  models.SellerTerms:
+    properties:
+      accepted_by:
+        description: Identifier of the user who has accepted the seller terms.
+        type: string
+      accepted_date:
+        allOf:
+          - $ref: "#/definitions/timestamppb.Timestamp"
+        description:
+          Unix timestamp of when seller terms were accepted for the account.
+          DateTime String RFC3999
+    type: object
+  models.UpdateSaleResponse:
+    properties:
+      sale:
+        $ref: "#/definitions/models.Sale"
+    type: object
+  timestamppb.Timestamp:
+    properties:
+      nanos:
+        description: |-
+          Non-negative fractions of a second at nanosecond resolution. Negative
+          second values with fractions must still have non-negative nanos values
+          that count forward in time. Must be from 0 to 999,999,999
+          inclusive.
+        type: integer
+      seconds:
+        description: |-
+          Represents seconds of UTC time since Unix epoch
+          1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to
+          9999-12-31T23:59:59Z inclusive.
+        type: integer
+    type: object
+info:
+  title: "Basta API"
+paths:
+  /accounts:
+    post:
+      consumes:
+        - application/json
+      description: Create account
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: "#/definitions/models.AccountResponse"
+        "500":
+          description: Internal Server Error
+      summary: Create account
+      tags:
+        - accounts
+  /accounts/{accountId}:
+    get:
+      consumes:
+        - application/json
+      description: Get account by id
+      parameters:
+        - description: Your provided Basta account id.
+          in: path
+          name: accountId
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: OK
+        "500":
+          description: Internal Server Error
+      summary: Get account by id
+      tags:
+        - accounts
+  /sale:
+    post:
+      consumes:
+        - application/json
+      description: Create sale
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: "#/definitions/models.CreateSaleResponse"
+        "500":
+          description: Internal Server Error
+      summary: Create sale
+      tags:
+        - sales
+  /sale/{saleId}:
+    get:
+      consumes:
+        - application/json
+      description: Get sale by ID
+      parameters:
+        - description: Sale ID
+          in: path
+          name: saleId
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: "#/definitions/models.GetSaleResponse"
+        "500":
+          description: Internal Server Error
+      summary: Get sale
+      tags:
+        - sales
+    put:
+      consumes:
+        - application/json
+      description: Update sale
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: "#/definitions/models.UpdateSaleResponse"
+        "500":
+          description: Internal Server Error
+      summary: Update sale
+      tags:
+        - sales
+  /sales:
+    get:
+      consumes:
+        - application/json
+      description: Get all sales
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: "#/definitions/models.GetSaleResponse"
+            type: array
+        "500":
+          description: Internal Server Error
+      summary: Get all sales
+      tags:
+        - sales
+swagger: "2.0"
