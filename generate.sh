@@ -5,7 +5,8 @@ typescript () {
   rm -rf "$dir" || true
   mkdir -p "$dir"
 
-  openapi-generator-cli generate -i swagger.yaml -g typescript-axios -o ./$dir
+  #openapi-generator-cli generate -i swagger.yaml -g typescript-react-query -o ./$dir
+  npx @hey-api/openapi-ts -i swagger.yaml -o $dir -c @hey-api/client-axios
 }
 
 typescript
