@@ -1,0 +1,18 @@
+{
+  "name": "@bastaai/basta-sdk",
+  "version": "0.0.0-alpha.0",
+  "description": "<img src=\"https://gist.githubusercontent.com/viktorbasta/d60b2555b30c415c8da7f4cc91282a7e/raw/84debc03b126793c193f40010388b1855aec1ad4/basta-labs-logo-horizontal.png\" height=\"120\" />",
+  "main": "index.js",
+  "types": "types/index.d.ts",
+  "author": "",
+  "license": "ISC",
+  "scripts": {
+    "generate": "openapi-ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@hey-api/client-axios": "^0.2.3",
+    "@hey-api/openapi-ts": "^0.53.0",
+    "typescript": "^5.5.4"
+  }
+}

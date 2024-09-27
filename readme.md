@@ -6,8 +6,8 @@ height="120" />
 
 A lightweight package designed for seamless integration with Basta's auctions. Easily access and manage auctions to create engaging auction experiences.
 
-All packages are fully auto generated from Open API specs.
+Package is fully auto generated from Open API 2 specs.
 
-# Currencies
+## Currencies
 
 All currency amounts adhere to the ISO 4217 standard. For more information, visit [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217).
